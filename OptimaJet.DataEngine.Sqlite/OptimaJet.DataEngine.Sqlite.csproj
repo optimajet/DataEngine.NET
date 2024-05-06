@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Version -->
+  <PropertyGroup>
+    <Version>0.0.2</Version>
+    <AssemblyVersion>0.0.2</AssemblyVersion>
+    <FileVersion>0.0.2</FileVersion>
+  </PropertyGroup>
+  <!-- Build -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <RootNamespace>OptimaJet.DataEngine.Sqlite</RootNamespace>
+    <AssemblyName>OptimaJet.DataEngine.Sqlite</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1701;1702;8002</NoWarn>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>DataEngine.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <!-- Nuget -->
+  <PropertyGroup>
+    <PackageId>OptimaJet.DataEngine.Sqlite</PackageId>
+    <Authors>Optimajet Limited</Authors>
+    <Company>Optimajet Limited</Company>
+    <Product>Data Engine</Product>
+    <Description>
+            Implementation of Data Engine for working with SQLite.
+        </Description>
+    <Copyright>OptimaJet Workflow Engine 2023</Copyright>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://workflowengine.io</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>data engine, de, provider, orm framework, optimajet, sqlite, for sqlite</PackageTags>
+    <PackageReleaseNotes>https://github.com/OptimaJetLLC/data-engine/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../License.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
+    <None Include="../icon.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OptimaJet.DataEngine.Sql\OptimaJet.DataEngine.Sql.csproj" />
+  </ItemGroup>
+</Project>

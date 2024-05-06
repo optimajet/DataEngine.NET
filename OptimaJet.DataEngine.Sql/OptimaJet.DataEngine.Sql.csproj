@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Version -->
+  <PropertyGroup>
+    <Version>0.0.2</Version>
+    <AssemblyVersion>0.0.2</AssemblyVersion>
+    <FileVersion>0.0.2</FileVersion>
+  </PropertyGroup>
+  <!-- Build -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <RootNamespace>OptimaJet.DataEngine.Sql</RootNamespace>
+    <AssemblyName>OptimaJet.DataEngine.Sql</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1701;1702;8002</NoWarn>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>DataEngine.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <!-- Nuget -->
+  <PropertyGroup>
+    <PackageId>OptimaJet.DataEngine.Sql</PackageId>
+    <Authors>Optimajet Limited</Authors>
+    <Company>Optimajet Limited</Company>
+    <Product>Data Engine</Product>
+    <Description>
+            Data Engine generic library for SQL implementations.
+        </Description>
+    <Copyright>OptimaJet Workflow Engine 2023</Copyright>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <PackageProjectUrl>https://workflowengine.io</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>data engine, de, provider, orm framework, optimajet, sql</PackageTags>
+    <PackageReleaseNotes>https://github.com/OptimaJetLLC/data-engine/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../License.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
+    <None Include="../icon.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OptimaJet.DataEngine\OptimaJet.DataEngine.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="6.6.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

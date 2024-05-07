@@ -10,10 +10,10 @@ namespace OptimaJet.DataEngine;
 /// <typeparam name="TEntity">A DTO class type that is used to create query elements by expressions.</typeparam>
 public class DeleteConstructor<TEntity> where TEntity : class
 {
-    /// <param name="dataSet">Dataset object for subsequent query retrieval.</param>
-    public DeleteConstructor(IDataSet<TEntity> dataSet)
+    /// <param name="collection">Dataset object for subsequent query retrieval.</param>
+    public DeleteConstructor(ICollection<TEntity> collection)
     {
-        _dataSet = dataSet;
+        _collection = collection;
         _builder = new FilterBuilder();
     }
     
@@ -128,12 +128,12 @@ public class DeleteConstructor<TEntity> where TEntity : class
                 return 0;
             case TrueFilter:
                 Filter = null;
-                return await _dataSet.DeleteAsync(this);
+                return await _collection.DeleteAsync(this);
             default:
-                return await _dataSet.DeleteAsync(this);
+                return await _collection.DeleteAsync(this);
         }
     }
 
-    private readonly IDataSet<TEntity> _dataSet;
+    private readonly ICollection<TEntity> _collection;
     private readonly IFilterBuilder _builder;
 }

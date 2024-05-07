@@ -4,7 +4,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace OptimaJet.DataEngine.Oracle.TypeHandlers;
 
-public class OracleBooleanHandler : BooleanHandler
+internal class OracleBooleanHandler : BooleanHandler
 {
     public override void SetValue(IDbDataParameter parameter, bool value)
     {

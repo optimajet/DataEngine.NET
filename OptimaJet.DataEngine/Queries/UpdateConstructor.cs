@@ -12,10 +12,10 @@ namespace OptimaJet.DataEngine;
 /// <typeparam name="TEntity">A DTO class type that is used to create query elements by expressions.</typeparam>
 public class UpdateConstructor<TEntity> where TEntity : class
 {
-    /// <param name="dataSet">Dataset object for subsequent query retrieval.</param>
-    public UpdateConstructor(IDataSet<TEntity> dataSet)
+    /// <param name="collection">Dataset object for subsequent query retrieval.</param>
+    public UpdateConstructor(ICollection<TEntity> collection)
     {
-        _dataSet = dataSet;
+        _collection = collection;
         _fieldSelector = new FieldSelector();
         _builder = new FilterBuilder();
     }
@@ -167,7 +167,7 @@ public class UpdateConstructor<TEntity> where TEntity : class
     /// <returns>This object for crate a chain of calls</returns>
     public UpdateConstructor<TEntity> Set(string name, object? value)
     {
-        var column = _dataSet.Metadata.Columns.FirstOrDefault(c => c.OriginalName == name);
+        var column = _collection.Metadata.Columns.FirstOrDefault(c => c.OriginalName == name);
         if (column == null) throw new MissingColumnException(name);
         
         Setter ??= new Setter();
@@ -191,13 +191,13 @@ public class UpdateConstructor<TEntity> where TEntity : class
                 return 0;
             case TrueFilter:
                 Filter = null;
-                return await _dataSet.UpdateAsync(this);
+                return await _collection.UpdateAsync(this);
             default:
-                return await _dataSet.UpdateAsync(this);
+                return await _collection.UpdateAsync(this);
         }
     }
 
-    private readonly IDataSet<TEntity> _dataSet;
+    private readonly ICollection<TEntity> _collection;
     private readonly IFilterBuilder _builder;
     private readonly IFieldSelector _fieldSelector;
 }

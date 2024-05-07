@@ -4,7 +4,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace OptimaJet.DataEngine.Oracle.TypeHandlers;
 
-public class OracleGuidHandler : GuidHandler
+internal class OracleGuidHandler : GuidHandler
 {
     public override void SetValue(IDbDataParameter parameter, Guid value)
     {

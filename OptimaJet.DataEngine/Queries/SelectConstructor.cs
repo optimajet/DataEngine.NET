@@ -12,10 +12,10 @@ namespace OptimaJet.DataEngine;
 /// <typeparam name="TEntity">A DTO class type that is used to create query elements by expressions..</typeparam>
 public class SelectConstructor<TEntity> where TEntity : class
 {
-    /// <param name="dataSet">Dataset object for subsequent query retrieval.</param>
-    public SelectConstructor(IDataSet<TEntity> dataSet)
+    /// <param name="collection">Dataset object for subsequent query retrieval.</param>
+    public SelectConstructor(ICollection<TEntity> collection)
     {
-        _dataSet = dataSet;
+        _collection = collection;
         _filterBuilder = new FilterBuilder();
         _fieldSelector = new FieldSelector();
     }
@@ -163,7 +163,7 @@ public class SelectConstructor<TEntity> where TEntity : class
     /// <returns>This object for crate a chain of calls</returns>
     public SelectConstructor<TEntity> OrderBy(Order order)
     { 
-        var column = _dataSet.Metadata.Columns.FirstOrDefault(c => c.OriginalName == order.OriginalName);
+        var column = _collection.Metadata.Columns.FirstOrDefault(c => c.OriginalName == order.OriginalName);
         if (column == null) throw new MissingColumnException(order.OriginalName);
 
         CreateSortIfNotExist();
@@ -182,7 +182,7 @@ public class SelectConstructor<TEntity> where TEntity : class
     /// <returns>This object for crate a chain of calls</returns>
     public SelectConstructor<TEntity> OrderBy(string name, Direction direction)
     {
-        var column = _dataSet.Metadata.Columns.FirstOrDefault(c => c.OriginalName == name);
+        var column = _collection.Metadata.Columns.FirstOrDefault(c => c.OriginalName == name);
         if (column == null) throw new MissingColumnException(name);
         
         OrderBy(new Order(name, direction));
@@ -238,9 +238,9 @@ public class SelectConstructor<TEntity> where TEntity : class
                 return new List<TEntity>();
             case TrueFilter:
                 Filter = null;
-                return await _dataSet.GetAsync(this);
+                return await _collection.GetAsync(this);
             default:
-                return await _dataSet.GetAsync(this);
+                return await _collection.GetAsync(this);
         }
     }
 
@@ -258,9 +258,9 @@ public class SelectConstructor<TEntity> where TEntity : class
                 return null;
             case TrueFilter:
                 Filter = null;
-                return (await _dataSet.GetAsync(this)).FirstOrDefault();
+                return (await _collection.GetAsync(this)).FirstOrDefault();
             default:
-                return (await _dataSet.GetAsync(this)).FirstOrDefault();
+                return (await _collection.GetAsync(this)).FirstOrDefault();
         }
     }
 
@@ -278,9 +278,9 @@ public class SelectConstructor<TEntity> where TEntity : class
                 return 0;
             case TrueFilter:
                 Filter = null;
-                return await _dataSet.CountAsync(this);
+                return await _collection.CountAsync(this);
             default:
-                return await _dataSet.CountAsync(this);
+                return await _collection.CountAsync(this);
         }
     }
     
@@ -289,7 +289,7 @@ public class SelectConstructor<TEntity> where TEntity : class
         Sort ??= new Sort();
     }
 
-    private readonly IDataSet<TEntity> _dataSet;
+    private readonly ICollection<TEntity> _collection;
     private readonly IFilterBuilder _filterBuilder;
     private readonly IFieldSelector _fieldSelector;
 }

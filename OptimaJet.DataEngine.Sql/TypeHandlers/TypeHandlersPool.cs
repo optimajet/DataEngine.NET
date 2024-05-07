@@ -7,34 +7,34 @@ public static class TypeHandlersPool
 {
     static TypeHandlersPool()
     {
-        CurrentProvider = ProviderType.Unspecified;
-        _pool = new Dictionary<ProviderType, Dictionary<Type, ISqlTypeHandler>>();
+        CurrentProvider = String.Empty;
+        _pool = new Dictionary<string, Dictionary<Type, ISqlTypeHandler>>();
     }
     
-    public static ProviderType CurrentProvider { get; private set; }
+    public static string CurrentProvider { get; private set; }
 
-    public static void SetCurrentProvider(ProviderType type)
+    public static void SetCurrentProvider(string name)
     {
-        if (type == CurrentProvider) return;
+        if (name == CurrentProvider) return;
 
-        var handlers = CreateAndGetTypeHandlers(type);
+        var handlers = CreateAndGetTypeHandlers(name);
         
         SqlMapper.ResetTypeHandlers();
         
         RegisterTypeHandlers(handlers);
 
-        CurrentProvider = type;
+        CurrentProvider = name;
     }
 
-    public static void SetTypeHandler(ProviderType providerType, Type type, ISqlTypeHandler handler)
+    public static void SetTypeHandler(string providerName, Type type, ISqlTypeHandler handler)
     {
-        var handlers = CreateAndGetTypeHandlers(providerType);
+        var handlers = CreateAndGetTypeHandlers(providerName);
         handlers[type] = handler;
     }
 
-    public static void SetTypeHandlers(ProviderType providerType, Dictionary<Type, ISqlTypeHandler> newHandlers)
+    public static void SetTypeHandlers(string providerName, Dictionary<Type, ISqlTypeHandler> newHandlers)
     {
-        var handlers = CreateAndGetTypeHandlers(providerType);
+        var handlers = CreateAndGetTypeHandlers(providerName);
 
         foreach (var pair in newHandlers)
         {
@@ -65,18 +65,18 @@ public static class TypeHandlersPool
         {typeof(Guid?), new GuidHandler()},
     };
     
-    private static readonly Dictionary<ProviderType, Dictionary<Type, ISqlTypeHandler>> _pool;
+    private static readonly Dictionary<string, Dictionary<Type, ISqlTypeHandler>> _pool;
 
-    private static Dictionary<Type, ISqlTypeHandler> CreateAndGetTypeHandlers(ProviderType type)
+    private static Dictionary<Type, ISqlTypeHandler> CreateAndGetTypeHandlers(string name)
     {
-        if (_pool.ContainsKey(type))
+        if (_pool.ContainsKey(name))
         {
-            return _pool[type];
+            return _pool[name];
         }
 
-        _pool[type] = new Dictionary<Type, ISqlTypeHandler>(DefaultTypeHandlers);
+        _pool[name] = new Dictionary<Type, ISqlTypeHandler>(DefaultTypeHandlers);
 
-        return _pool[type];
+        return _pool[name];
     }
     
     private static void RegisterTypeHandlers(Dictionary<Type, ISqlTypeHandler> handlers)

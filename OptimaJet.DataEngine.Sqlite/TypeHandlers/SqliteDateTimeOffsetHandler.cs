@@ -4,7 +4,7 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Sqlite.TypeHandlers;
 
-public class SqliteDateTimeOffsetHandler : DateTimeOffsetHandler
+internal class SqliteDateTimeOffsetHandler : DateTimeOffsetHandler
 {
     public override void SetValue(IDbDataParameter parameter, DateTimeOffset value)
     {

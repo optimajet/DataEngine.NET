@@ -5,7 +5,7 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Postgres.TypeHandlers;
 
-public class PostgresDateTimeHandler : DateTimeHandler
+internal class PostgresDateTimeHandler : DateTimeHandler
 {
     public override void SetValue(IDbDataParameter parameter, DateTime value)
     {

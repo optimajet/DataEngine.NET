@@ -4,7 +4,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace OptimaJet.DataEngine.Oracle.TypeHandlers;
 
-public class OracleTimeSpanHandler : TimeSpanHandler
+internal class OracleTimeSpanHandler : TimeSpanHandler
 {
     public override void SetValue(IDbDataParameter parameter, TimeSpan value)
     {

@@ -4,7 +4,7 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Mysql.TypeHandlers;
 
-public class MysqlDateTimeOffsetHandler : DateTimeOffsetHandler
+internal class MysqlDateTimeOffsetHandler : DateTimeOffsetHandler
 {
     public override void SetValue(IDbDataParameter parameter, DateTimeOffset value)
     {

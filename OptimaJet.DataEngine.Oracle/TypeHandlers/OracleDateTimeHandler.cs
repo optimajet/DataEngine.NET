@@ -4,7 +4,7 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace OptimaJet.DataEngine.Oracle.TypeHandlers;
 
-public class OracleDateTimeHandler : DateTimeHandler
+internal class OracleDateTimeHandler : DateTimeHandler
 {
     public override void SetValue(IDbDataParameter parameter, DateTime value)
     {

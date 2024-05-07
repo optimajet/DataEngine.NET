@@ -1,14 +1,11 @@
 ﻿using System.Data;
 using System.Text;
 using Dapper;
-using Dapper.Oracle;
 using OptimaJet.DataEngine.Exceptions;
 using OptimaJet.DataEngine.Filters;
 using OptimaJet.DataEngine.Metadata;
 using OptimaJet.DataEngine.Sorts;
-using OptimaJet.DataEngine.Sql.Glossaries;
 using SqlKata;
-using SqlKata.Compilers;
 using SqlKata.Execution;
 
 namespace OptimaJet.DataEngine.Sql.SqlDataQuery;
@@ -21,31 +18,16 @@ namespace OptimaJet.DataEngine.Sql.SqlDataQuery;
 /// </summary>
 public class DataQuery
 {
+    /// <param name="provider"></param>
     /// <param name="connection">Any ADO.NET database connection</param>
-    /// <param name="dataProvider"></param>
-    /// <param name="compiler">Specifies sql dialect Compiler </param>
-    /// <param name="exceptionHandler">Client side exception handling</param>
     /// <param name="transaction">Any ADO.NET transaction</param>
-    /// <param name="timeout">Command execution timeout on null using DefaultTimeout</param>
-    public DataQuery(IDbConnection connection, ProviderType dataProvider, Compiler compiler, Func<Exception, Exception> exceptionHandler, IDbTransaction? transaction = null, int? timeout = null)
+    public DataQuery(SqlProvider provider, IDbConnection connection, IDbTransaction? transaction = null)
     {
-        _query = new XQuery(connection, compiler) { Logger = LogRawSql };
+        _query = new XQuery(connection, provider.Compiler) { Logger = LogRawSql };
+        _provider = provider;
         _connection = connection;
-        _dataProvider = dataProvider;
         _transaction = transaction;
-        _exceptionHandler = exceptionHandler;
-        
-        Timeout = timeout ?? DefaultTimeout;
     }
-
-    public const int DefaultTimeout = 30;
-
-    /// <summary>
-    /// Command execution timeout
-    /// </summary>
-    public int Timeout { get; set; }
-    
-    public Action<string>? LogQueryFn { get; set; }
 
     #region CustomQueries
 
@@ -131,7 +113,7 @@ public class DataQuery
             _query.Select($"{column.Name} as {column.OriginalName}");
         }
 
-        return ExecuteWithExceptionHandling(async () => (await _query.GetAsync<TEntity>(_transaction, Timeout)).ToList());
+        return ExecuteWithExceptionHandling(async () => (await _query.GetAsync<TEntity>(_transaction, _provider.DefaultTimeout)).ToList());
     }
     
     public Task<TEntity?> FirstAsync<TEntity>(EntityMetadata metadata) where TEntity : class
@@ -141,17 +123,17 @@ public class DataQuery
             _query.Select($"{column.Name} as {column.OriginalName}");
         }
 
-        return ExecuteWithExceptionHandling(async () => await _query.FirstOrDefaultAsync<TEntity>(_transaction, Timeout))!;
+        return ExecuteWithExceptionHandling(async () => await _query.FirstOrDefaultAsync<TEntity>(_transaction, _provider.DefaultTimeout))!;
     }
     
     public Task<int> CountAsync()
     {
-        return ExecuteWithExceptionHandling(() => _query.CountAsync<int>(null, _transaction, Timeout));
+        return ExecuteWithExceptionHandling(() => _query.CountAsync<int>(null, _transaction, _provider.DefaultTimeout));
     }
 
     public Task<int> InsertAsync(Dictionary<string, object?> data)
     {
-        return ExecuteWithExceptionHandling(() => _query.InsertAsync(data, _transaction, Timeout));
+        return ExecuteWithExceptionHandling(() => _query.InsertAsync(data, _transaction, _provider.DefaultTimeout));
     }
 
     public async Task<int> InsertAsync(IEnumerable<string> columns, IEnumerable<IEnumerable<object?>> valuesCollection)
@@ -161,58 +143,37 @@ public class DataQuery
         if (valuesList.Count == 0) return 0;
         
         return await ExecuteWithExceptionHandling(() => 
-            _dataProvider != ProviderType.Oracle 
-                ? _query.InsertAsync(columns, valuesList, _transaction, Timeout) 
+            _provider.Name != ProviderName.Oracle
+                ? _query.InsertAsync(columns, valuesList, _transaction, _provider.DefaultTimeout)
                 : InsertOracleAsync(columns.ToList(), valuesList.ToList()));
     }
 
     public Task<int> UpdateAsync(Dictionary<string, object?> data)
     {
-        return ExecuteWithExceptionHandling(() =>_query.UpdateAsync(data, _transaction, Timeout));
+        return ExecuteWithExceptionHandling(() =>_query.UpdateAsync(data, _transaction, _provider.DefaultTimeout));
     }
 
     public Task<int> DeleteAsync()
     {
-        return ExecuteWithExceptionHandling(() => _query.DeleteAsync(_transaction, Timeout));
+        return ExecuteWithExceptionHandling(() => _query.DeleteAsync(_transaction, _provider.DefaultTimeout));
     }
 
     #endregion
 
     #region CustomExecutions
 
-    public async Task<IEnumerable<TResult>> ExecuteStoredProcedureAsync<TEntity, TResult>(DataFunction<TEntity, TResult> function)
-        where TEntity : class
-    {
-        const string oracleResult = "Result";
-
-        var glossary = Dialect.Get(_dataProvider);
-        var command = glossary.Quote(function.Name);
-
-        if (_dataProvider != ProviderType.Oracle)
-            return await _connection.QueryAsync<TResult>(command, function.Parameter, _transaction, Timeout,
-                CommandType.StoredProcedure);
-
-        var oracleParams = new OracleDynamicParameters();
-
-        oracleParams.AddDynamicParams(function.Parameter);
-        oracleParams.Add(oracleResult, dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
-
-        return await ExecuteWithExceptionHandling(() => 
-            _connection.QueryAsync<TResult>(command, oracleParams, _transaction, Timeout, CommandType.StoredProcedure));
-    }
-
     public Task<int> UpsertAsync<TEntity>(TEntity entity, EntityMetadata metadata) where TEntity : class
     {
         return ExecuteWithExceptionHandling(() => 
-            _dataProvider switch
+            _provider.Name switch
             {
-                ProviderType.Mssql => UpsertMssqlAsync(entity, metadata),
-                ProviderType.Mysql => UpsertMysqlAsync(entity, metadata),
-                ProviderType.Oracle => UpsertOracleAsync(entity, metadata),
-                ProviderType.Postgres => UpsertPostgresAsync(entity, metadata),
+                ProviderName.Mssql => UpsertMssqlAsync(entity, metadata),
+                ProviderName.Mysql => UpsertMysqlAsync(entity, metadata),
+                ProviderName.Oracle => UpsertOracleAsync(entity, metadata),
+                ProviderName.Postgres => UpsertPostgresAsync(entity, metadata),
                 //Same dialect as Postgres
-                ProviderType.Sqlite => UpsertPostgresAsync(entity, metadata),
-                _ => throw new ProviderTypeNotSupportedException(_dataProvider)
+                ProviderName.Sqlite => UpsertPostgresAsync(entity, metadata),
+                _ => throw new ProviderNotSupportedException(_provider.Name)
             });
     }
 
@@ -220,10 +181,9 @@ public class DataQuery
 
     private Query _query;
     private string? _from;
+    private readonly SqlProvider _provider;
     private readonly IDbConnection _connection;
     private readonly IDbTransaction? _transaction;
-    private readonly Func<Exception, Exception> _exceptionHandler;
-    private readonly ProviderType _dataProvider;
 
     #region TemporaryWorkarounds
 
@@ -275,7 +235,7 @@ public class DataQuery
 
         var command = sb.ToString();
 
-        return await _connection.ExecuteAsync(command, parameters, _transaction, Timeout);
+        return await _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout);
     }
 
     private Task<int> UpsertMssqlAsync<TEntity>(TEntity entity, EntityMetadata metadata) where TEntity : class
@@ -300,7 +260,7 @@ public class DataQuery
 
         var command = sb.ToString();
 
-        return _connection.ExecuteAsync(command, parameters, _transaction, Timeout);
+        return _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout);
     }
 
     private async Task<int> UpsertMysqlAsync<TEntity>(TEntity entity, EntityMetadata metadata) where TEntity : class
@@ -317,7 +277,7 @@ public class DataQuery
 
         var command = sb.ToString();
 
-        return await _connection.ExecuteAsync(command, parameters, _transaction, Timeout) > 0 ? 1 : 0;
+        return await _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout) > 0 ? 1 : 0;
     }
 
     private async Task<int> UpsertOracleAsync<TEntity>(TEntity entity, EntityMetadata metadata) where TEntity : class
@@ -353,7 +313,7 @@ public class DataQuery
 
         var command = sb.ToString();
 
-        return await _connection.ExecuteAsync(command, parameters, _transaction, Timeout) == -1 ? 1 : 0;
+        return await _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout) == -1 ? 1 : 0;
     }
 
     private Task<int> UpsertPostgresAsync<TEntity>(TEntity entity, EntityMetadata metadata) where TEntity : class
@@ -371,7 +331,7 @@ public class DataQuery
 
         var command = sb.ToString();
 
-        return _connection.ExecuteAsync(command, parameters, _transaction, Timeout);
+        return _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout);
     }
 
     private Dictionary<string, object?> CreateParameters<TEntity>(TEntity entity, EntityMetadata metadata, string prefix = "@") where TEntity : class
@@ -396,15 +356,13 @@ public class DataQuery
         }
         catch (Exception exception)
         {
-            throw _exceptionHandler(exception);
+            _provider.ExceptionHandler(exception);
+            throw;
         }
     }
     
     private void LogRawSql(SqlResult sql)
     {
-        if (LogQueryFn != null && sql.RawSql != null)
-        {
-            LogQueryFn(sql.RawSql);
-        }
+        _provider.LogQueryAction(sql.RawSql);
     }
 }

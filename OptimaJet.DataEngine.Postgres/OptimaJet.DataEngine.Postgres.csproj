@@ -8,7 +8,7 @@
   <!-- Build -->
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>10</LangVersion>
+    <LangVersion>12</LangVersion>
     <RootNamespace>OptimaJet.DataEngine.Postgres</RootNamespace>
     <AssemblyName>OptimaJet.DataEngine.Postgres</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -28,16 +28,15 @@
             Implementation of Data Engine for working with PostgreSQL.
         </Description>
     <Copyright>OptimaJet Workflow Engine 2023</Copyright>
-    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://workflowengine.io</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>data engine, de, provider, orm framework, optimajet, postgres, postresql, for postgres</PackageTags>
-    <PackageReleaseNotes>https://github.com/OptimaJetLLC/data-engine/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/optimajet/DataEngine.NET/blob/main/CHANGELOG.md</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="../License.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
     <None Include="../icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>

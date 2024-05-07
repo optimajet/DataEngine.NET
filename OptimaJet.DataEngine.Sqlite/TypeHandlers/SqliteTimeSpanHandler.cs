@@ -4,7 +4,7 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Sqlite.TypeHandlers;
 
-public class SqliteTimeSpanHandler : TimeSpanHandler
+internal class SqliteTimeSpanHandler : TimeSpanHandler
 {
     public override void SetValue(IDbDataParameter parameter, TimeSpan value)
     {

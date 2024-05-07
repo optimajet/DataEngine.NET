@@ -6,10 +6,10 @@ namespace OptimaJet.DataEngine.Metadata;
 
 public static class MetadataPool<TEntity> where TEntity : class
 {
-    private static readonly ConcurrentDictionary<ProviderType, EntityMetadata> Pool = new();
+    private static readonly ConcurrentDictionary<string, EntityMetadata> Pool = new();
 
-    public static EntityMetadata GetMetadata(ProviderType type)
+    public static EntityMetadata GetMetadata(string name)
     {
-        return Pool.GetOrAdd(type, _ => MetadataBuilder.Build<TEntity>());
+        return Pool.GetOrAdd(name, _ => MetadataBuilder.Build<TEntity>());
     }
 }

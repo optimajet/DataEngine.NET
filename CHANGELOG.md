@@ -4,6 +4,12 @@
 
 Learn about the latest improvements.
 
+## 0.0.2
+
+_May 7, 2024_
+
+- The licence has been changed to MIT.
+
 ## 0.0.1
 
 _January 1, 1970_

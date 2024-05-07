@@ -4,7 +4,7 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Sqlite.TypeHandlers;
 
-public class SqliteGuidHandler : GuidHandler
+internal class SqliteGuidHandler : GuidHandler
 {
     public override void SetValue(IDbDataParameter parameter, Guid value)
     {

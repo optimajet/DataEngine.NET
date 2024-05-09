@@ -1,8 +1,8 @@
 ﻿namespace OptimaJet.DataEngine.Exceptions;
 
-internal class NullExpressionException : InvalidOperationException
+public class NullExpressionException : InvalidOperationException
 {
     const string DefaultMessage = "There is no expression to create a constant..";
     
-    public NullExpressionException(string? message = DefaultMessage) : base(message) {}
+    internal NullExpressionException(string? message = DefaultMessage) : base(message) {}
 }

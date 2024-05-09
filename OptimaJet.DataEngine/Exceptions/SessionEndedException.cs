@@ -2,5 +2,7 @@
 
 public class SessionEndedException : InvalidOperationException
 {
-    public SessionEndedException() : base("Session has been ended, no operations can be performed.") { }
+    const string DefaultMessage = "Session has been ended, no operations can be performed.";
+
+    internal SessionEndedException(string? message = DefaultMessage) : base(message) { }
 }

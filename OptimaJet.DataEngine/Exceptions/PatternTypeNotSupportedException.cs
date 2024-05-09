@@ -1,8 +1,8 @@
 ﻿namespace OptimaJet.DataEngine.Exceptions;
 
-internal class PatternTypeNotSupportedException : NotSupportedException
+public class PatternTypeNotSupportedException : NotSupportedException
 {
     const string DefaultMessage = "Pattern type not supported.";
     
-    public PatternTypeNotSupportedException(string? message = DefaultMessage) : base(message) {}
+    internal PatternTypeNotSupportedException(string? message = DefaultMessage) : base(message) {}
 }

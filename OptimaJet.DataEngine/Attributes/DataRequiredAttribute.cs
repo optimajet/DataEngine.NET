@@ -1,4 +1,4 @@
-﻿namespace OptimaJet.DataEngine;
+﻿namespace OptimaJet.DataEngine.Attributes;
 
 /// <summary>
 /// Specifies the entity's metadata that this field must be not null.

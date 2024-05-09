@@ -2,7 +2,7 @@
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-public class TimeSpanHandler : SqlTypeHandler<TimeSpan>
+internal class TimeSpanHandler : SqlTypeHandler<TimeSpan>
 {
     public override void SetValue(IDbDataParameter parameter, TimeSpan value)
     {

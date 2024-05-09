@@ -3,7 +3,7 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers;
 
-public static class TypeHandlersPool
+internal static class TypeHandlersPool
 {
     static TypeHandlersPool()
     {

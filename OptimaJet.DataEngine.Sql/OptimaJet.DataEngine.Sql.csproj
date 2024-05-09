@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Version -->
   <PropertyGroup>
-    <Version>0.0.2</Version>
-    <AssemblyVersion>0.0.2</AssemblyVersion>
-    <FileVersion>0.0.2</FileVersion>
+    <Version>0.0.3</Version>
+    <AssemblyVersion>0.0.3</AssemblyVersion>
+    <FileVersion>0.0.3</FileVersion>
   </PropertyGroup>
   <!-- Build -->
   <PropertyGroup>
@@ -32,7 +32,9 @@
     <PackageProjectUrl>https://workflowengine.io</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>data engine, de, provider, orm framework, optimajet, sql</PackageTags>
-    <PackageReleaseNotes>https://github.com/optimajet/DataEngine.NET/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/optimajet/DataEngine.NET/releases</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/optimajet/DataEngine.NET.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
@@ -50,5 +52,12 @@
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="OptimaJet.DataEngine.Mssql, PublicKey=00240000048000001401000006020000002400005253413100080000010001000d855232cf8d31905070b4f435295076c23b4354f409eb95bd91942fe7ccca2e150c23f8f500f49296d8be25b31aae7a5b8293476c81e53be937984823490f3b580babb18ee0e23b2fe10224779aa069947eff60656d2e580cfd846e9182ef1835f3c7947eb1fb1e54180737acd64eaf3c6cce5762bb4d38bde24302c4f7edf3ae519b4d41d68f59a2f0280e45601fb542c6ef95969caa1eea6cacaa97a19b2d774979f7dc08f5d87a5d09e27d1fddf9dcc59969d325f9af906fbe18113f2d52a389dff074fc57c4a667fbfe7b8183328fa6f55192a944cf874b9106ee6d0b216b5a316b056b70a036d674cc262040b6f65867a6541cecec8fe196992bb3b6a5" />
+    <InternalsVisibleTo Include="OptimaJet.DataEngine.Mysql, PublicKey=002400000480000014010000060200000024000052534131000800000100010069e490930bc060e3cbb1d47a7dfa8b2307c0d70a82ad86d5213ffe74d2d3453d87acfff1e4cb3e777c453ad8ddf54ddcab4ee8a17ae7b11710eca4278bd567f91a7553bd75bfe1bd76fcb7d98915be3aae47290054cf4b44b07c3ceed0c25052b971aed95a334facf3068832abdf5e6769d958c6286db12780e76111a27764ecbb72e1163c5a339ba69686d5535bcaaaa726892906f52f85bfb1c1965df25679573546003befafc10f69b25b06a33b06f6f15e6dd31bfd1f356bc3d5ea9b095efa28cbee0d11687c1eea39b9795490c3c097dcf5b8cb9374417f84c37895628636aed136e30d387bc6736324286c87656cf7f7c4819ef0db98b79ed0e3cefb8e" />
+    <InternalsVisibleTo Include="OptimaJet.DataEngine.Oracle, PublicKey=0024000004800000140100000602000000240000525341310008000001000100f954c80e340047d448ec411179d4579b78cdeb6b415a24e0c6cb862a68b58d30d4a211645c8419ef677a1dec9629a7e5776a07757563c2a6b11dcce02ed322472fe6a3cff3cf6e05e9f71088903028e88c12328dcb3d7e119c25092c7ef8456d634aea450008e6a68947c191fe0031f16b1b810d4bb43a2841e8c2bc248cf8dc3c3462c65dadc3cd53c8fa7e10f0c63992363711da1c11b0a12cda9f18e4c615f669f47d2bcf5aba77fbfb046b8cb7bb1c9dfb1d1d2ec88a8d8812404f5617092bc29ab847a1d8054f165d88985b615c05d1b05689d42c98c524f23cd3d7a89f5213740a0afe4d21b3e3277d924e2ee3ba0c956d278897b87aee600a792322b1" />
+    <InternalsVisibleTo Include="OptimaJet.DataEngine.Postgres, PublicKey=0024000004800000140100000602000000240000525341310008000001000100cbebb3f3268ed59e6e9f1d03845c2b7dd8e72e301ae9ab88127b816539061159a8a419badf7a66b8eeb7a7529d3f81f8c0caf1bf8d5d36ba1c1455f5bf31e49e382607958e96f0a8a21850465632456a221cd857c36d90f20f168e26293a1b57cfb6a0f35179515c8d0b959f9a3e5bd63599792fa4ff368e519f491a9b11072a9eb0bbbf1fa98fc3d712b7fca351b10d9835628e09a36471dd9d13cc5f0f5e1fb19363490928dab31611cddedf82d4249e9c1ea4262a9bf8289d63bcc7917a57d5c89267b96940655c6fad940e522b7f32eedd98c9608668d524e9dbac199cfdb3f8740f6c542345d7508ce9b0782ac67a4c3f4c98dc22c3cfc6c72b51f291c4" />
+    <InternalsVisibleTo Include="OptimaJet.DataEngine.Sqlite, PublicKey=0024000004800000140100000602000000240000525341310008000001000100e95fbbc811a3e1df83c1e91857160219cbafef2d7c37ff5c5917ac44d8f7e2282d1c5c0da816213c183275df9e0846ec45863458a4957337a89249d965ba49a8bf02b01ad1d15af54818e8e500516fba7040edff32530ffe3d982c019459fcd7e34b42eb5a017b6087a900da0994969bff3561008daf522da8bb9eb6b88b732b4464d758a05366377685fa5b980046ff17f9420c880669731d7649bab87ac1f530cf8fe37b54a68d1531f7beaa01ab4d047adf3be24005d2c2d51ed3d90db2e2a1b08396348ee55f3e9607202646c237b93a863c8a2ffb1666da610f09db7779c5703488f9c5a2a26c8d7595e719272ec7de7c91629b9518e5141765a556a18d" />
   </ItemGroup>
 </Project>

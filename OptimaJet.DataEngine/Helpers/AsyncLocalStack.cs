@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 
-namespace OptimaJet.DataEngine;
+namespace OptimaJet.DataEngine.Helpers;
 
-public class AsyncLocalStack<T> : ICollection, IReadOnlyCollection<T>
+internal class AsyncLocalStack<T> : ICollection, IReadOnlyCollection<T>
 {
     private Stack<T> Stack
     {

@@ -2,7 +2,7 @@
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-public class Int64Handler : SqlTypeHandler<Int64>
+internal class Int64Handler : SqlTypeHandler<Int64>
 {
     public override void SetValue(IDbDataParameter parameter, long value)
     {

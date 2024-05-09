@@ -1,4 +1,4 @@
-﻿namespace OptimaJet.DataEngine;
+﻿namespace OptimaJet.DataEngine.Helpers;
 
 internal static class Extensions
 {

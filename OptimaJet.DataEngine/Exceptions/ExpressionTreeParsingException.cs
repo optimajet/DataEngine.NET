@@ -1,8 +1,8 @@
 ﻿namespace OptimaJet.DataEngine.Exceptions;
 
-internal class ExpressionTreeParsingException : InvalidOperationException
+public class ExpressionTreeParsingException : InvalidOperationException
 {
     const string DefaultMessage = "An error occurred while parsing the expression tree.";
     
-    public ExpressionTreeParsingException(string? message = DefaultMessage) : base(message) {}
+    internal ExpressionTreeParsingException(string? message = DefaultMessage) : base(message) {}
 }

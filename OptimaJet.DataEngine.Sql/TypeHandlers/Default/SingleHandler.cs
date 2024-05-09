@@ -2,7 +2,7 @@
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-public class SingleHandler : SqlTypeHandler<Single>
+internal class SingleHandler : SqlTypeHandler<Single>
 {
     public override void SetValue(IDbDataParameter parameter, float value)
     {

@@ -2,7 +2,7 @@
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers;
 
-public abstract class SqlTypeHandler<T> : ISqlTypeHandler
+internal abstract class SqlTypeHandler<T> : ISqlTypeHandler
 {
     public abstract void SetValue(IDbDataParameter parameter, T value);
     public abstract T Parse(object value);

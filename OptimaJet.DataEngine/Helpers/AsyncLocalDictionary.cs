@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 
-namespace OptimaJet.DataEngine;
+namespace OptimaJet.DataEngine.Helpers;
 
-public class AsyncLocalDictionary<TKey, TValue> : IDictionary<TKey, TValue> where TKey : notnull
+internal class AsyncLocalDictionary<TKey, TValue> : IDictionary<TKey, TValue> where TKey : notnull
 {
     private IDictionary<TKey, TValue> Dictionary
     {

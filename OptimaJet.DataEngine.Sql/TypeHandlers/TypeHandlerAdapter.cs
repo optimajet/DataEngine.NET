@@ -3,7 +3,7 @@ using Dapper;
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers;
 
-public class TypeHandlerAdapter : SqlMapper.ITypeHandler
+internal class TypeHandlerAdapter : SqlMapper.ITypeHandler
 {
     public TypeHandlerAdapter(ISqlTypeHandler adaptee)
     {

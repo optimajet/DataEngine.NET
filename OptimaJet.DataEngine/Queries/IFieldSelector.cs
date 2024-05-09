@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace OptimaJet.DataEngine;
+namespace OptimaJet.DataEngine.Queries;
 
 public interface IFieldSelector
 {

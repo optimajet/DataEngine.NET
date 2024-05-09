@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Version -->
   <PropertyGroup>
-    <Version>0.0.2</Version>
-    <AssemblyVersion>0.0.2</AssemblyVersion>
-    <FileVersion>0.0.2</FileVersion>
+    <Version>0.0.3</Version>
+    <AssemblyVersion>0.0.3</AssemblyVersion>
+    <FileVersion>0.0.3</FileVersion>
   </PropertyGroup>
   <!-- Build -->
   <PropertyGroup>
@@ -32,7 +32,9 @@
     <PackageProjectUrl>https://workflowengine.io</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>data engine, de, provider, orm framework, optimajet, oracle, for oracle</PackageTags>
-    <PackageReleaseNotes>https://github.com/optimajet/DataEngine.NET/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/optimajet/DataEngine.NET/releases</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/optimajet/DataEngine.NET.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>

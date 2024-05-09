@@ -2,7 +2,7 @@
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-public class GuidHandler : SqlTypeHandler<Guid>
+internal class GuidHandler : SqlTypeHandler<Guid>
 {
     public override void SetValue(IDbDataParameter parameter, Guid value)
     {

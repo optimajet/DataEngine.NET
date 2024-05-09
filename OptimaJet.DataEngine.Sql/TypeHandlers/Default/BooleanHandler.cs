@@ -2,7 +2,7 @@
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-public class BooleanHandler : SqlTypeHandler<Boolean>
+internal class BooleanHandler : SqlTypeHandler<Boolean>
 {
     public override void SetValue(IDbDataParameter parameter, bool value)
     {

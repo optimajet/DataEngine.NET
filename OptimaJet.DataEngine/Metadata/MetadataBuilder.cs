@@ -1,10 +1,11 @@
 ﻿using System.Reflection;
 using Humanizer;
+using OptimaJet.DataEngine.Attributes;
 using OptimaJet.DataEngine.Exceptions;
 
 namespace OptimaJet.DataEngine.Metadata;
 
-public static class MetadataBuilder
+internal static class MetadataBuilder
 {
     public static EntityMetadata Build<TEntity>() where TEntity : class
     {

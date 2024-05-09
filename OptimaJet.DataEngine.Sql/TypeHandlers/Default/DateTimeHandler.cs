@@ -2,7 +2,7 @@
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-public class DateTimeHandler : SqlTypeHandler<DateTime>
+internal class DateTimeHandler : SqlTypeHandler<DateTime>
 {
     public override void SetValue(IDbDataParameter parameter, DateTime value)
     {

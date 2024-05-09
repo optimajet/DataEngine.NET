@@ -5,5 +5,3 @@ This project is currently in the alpha release stage.
 
 The primary goal of DataEngine is to generate queries to various databases through a unified interface and automatically map this data to
 entities.
-
-You can check out the latest updates in the [change log](https://github.com/optimajet/DataEngine.NET/blob/main/CHANGELOG.md).

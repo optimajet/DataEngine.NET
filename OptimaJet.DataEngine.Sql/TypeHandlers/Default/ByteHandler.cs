@@ -2,7 +2,7 @@
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-public class ByteHandler : SqlTypeHandler<Byte>
+internal class ByteHandler : SqlTypeHandler<Byte>
 {
     public override void SetValue(IDbDataParameter parameter, byte value)
     {

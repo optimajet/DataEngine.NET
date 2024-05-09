@@ -1,8 +1,8 @@
 ﻿namespace OptimaJet.DataEngine.Exceptions;
 
-internal class TransactionAlreadyExistException : InvalidOperationException
+public class TransactionAlreadyExistException : InvalidOperationException
 {
     const string DefaultMessage = "Transaction already exist.";
     
-    public TransactionAlreadyExistException(string? message = DefaultMessage) : base(message) {}
+    internal TransactionAlreadyExistException(string? message = DefaultMessage) : base(message) {}
 }

@@ -42,7 +42,7 @@
     <None Include="../icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="6.0.3" />
+    <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OptimaJet.DataEngine.Sql\OptimaJet.DataEngine.Sql.csproj" />

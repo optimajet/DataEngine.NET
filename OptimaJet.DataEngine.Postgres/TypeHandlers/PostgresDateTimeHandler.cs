@@ -5,18 +5,16 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Postgres.TypeHandlers;
 
-internal class PostgresDateTimeHandler : DateTimeHandler
+public class PostgresDateTimeHandler : DateTimeHandler
 {
     public override void SetValue(IDbDataParameter parameter, DateTime value)
     {
-        parameter.Value = value;
-        parameter.DbType = DbType.DateTime2;
-
-        switch (parameter)
+        if (parameter is not NpgsqlParameter postgresParameter)
         {
-            case NpgsqlParameter postgres:
-                postgres.NpgsqlDbType = NpgsqlDbType.Timestamp;
-                break;
+            throw new ArgumentException("The parameter must be of type NpgsqlParameter", nameof(parameter));
         }
+        
+        postgresParameter.Value = value;
+        postgresParameter.NpgsqlDbType = NpgsqlDbType.Timestamp;
     }
 }

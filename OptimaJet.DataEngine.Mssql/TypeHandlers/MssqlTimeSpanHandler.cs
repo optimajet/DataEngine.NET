@@ -4,18 +4,16 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Mssql.TypeHandlers;
 
-internal class MssqlTimeSpanHandler : TimeSpanHandler
+public class MssqlTimeSpanHandler : TimeSpanHandler
 {
     public override void SetValue(IDbDataParameter parameter, TimeSpan value)
     {
-        parameter.Value = value;
-        parameter.DbType = DbType.Time;
-
-        switch (parameter)
+        if (parameter is not SqlParameter sqlParameter)
         {
-            case SqlParameter mssql:
-                mssql.SqlDbType = SqlDbType.Time;
-                break;
+            throw new ArgumentException("The parameter must be a SqlParameter.", nameof(parameter));
         }
+        
+        sqlParameter.Value = value;
+        sqlParameter.SqlDbType = SqlDbType.Time;
     }
 }

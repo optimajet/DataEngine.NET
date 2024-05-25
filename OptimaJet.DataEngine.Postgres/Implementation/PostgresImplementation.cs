@@ -13,13 +13,7 @@ internal class PostgresImplementation : ISqlImplementation
 {
     static PostgresImplementation()
     {
-        Dictionary<Type, ISqlTypeHandler> typeHandlers = new()
-        {
-            {typeof(DateTime), new PostgresDateTimeHandler()},
-            {typeof(DateTime?), new PostgresDateTimeHandler()},
-        };
-
-        TypeHandlersPool.SetTypeHandlers(ProviderName.Postgres, typeHandlers);
+        TypeHandlerRegistry.Register(new PostgresDateTimeHandler(), ProviderName.Postgres);
     }
 
     public string Name => ProviderName.Postgres;

@@ -13,19 +13,10 @@ internal class SqliteImplementation : ISqlImplementation
 {
     static SqliteImplementation()
     {
-        Dictionary<Type, ISqlTypeHandler> typeHandlers = new()
-        {
-            {typeof(DateTime), new SqliteDateTimeHandler()},
-            {typeof(DateTime?), new SqliteDateTimeHandler()},
-            {typeof(DateTimeOffset), new SqliteDateTimeOffsetHandler()},
-            {typeof(DateTimeOffset?), new SqliteDateTimeOffsetHandler()},
-            {typeof(TimeSpan), new SqliteTimeSpanHandler()},
-            {typeof(TimeSpan?), new SqliteTimeSpanHandler()},
-            {typeof(Guid), new SqliteGuidHandler()},
-            {typeof(Guid?), new SqliteGuidHandler()},
-        };
-
-        TypeHandlersPool.SetTypeHandlers(ProviderName.Sqlite, typeHandlers);
+        TypeHandlerRegistry.Register(new SqliteDateTimeHandler(), ProviderName.Sqlite);
+        TypeHandlerRegistry.Register(new SqliteDateTimeOffsetHandler(), ProviderName.Sqlite);
+        TypeHandlerRegistry.Register(new SqliteTimeSpanHandler(), ProviderName.Sqlite);
+        TypeHandlerRegistry.Register(new SqliteGuidHandler(), ProviderName.Sqlite);
     }
     
     public string Name => ProviderName.Sqlite;
@@ -36,7 +27,7 @@ internal class SqliteImplementation : ISqlImplementation
     {
         return new SQLiteConnection(connectionString);
     }
-
+    
     public void ConfigureMetadata(EntityMetadata metadata)
     {
         // Do nothing

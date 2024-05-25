@@ -18,30 +18,27 @@ public abstract class SqlProviderBuilder : IProviderBuilder
         _sessionOptions = new SessionOptions(connection);
         _isUniqueInstance = isUniqueInstance;
     }
-    
+
     public ProviderKey GetKey()
     {
-        return (_sessionOptions, _isUniqueInstance) switch
+        if (_isUniqueInstance)
         {
-            ({ExternalConnection: not null}, true)
-                => ProviderKey.GetUniqueKey(_implementation.Name, _sessionOptions.ExternalConnection),
-            ({ExternalConnection: not null}, false)
-                => ProviderKey.GetKey(_implementation.Name, _sessionOptions.ExternalConnection),
-            ({ConnectionString: not null}, true)
-                => ProviderKey.GetUniqueKey(_implementation.Name, _sessionOptions.ConnectionString),
-            ({ConnectionString: not null}, false)
-                => ProviderKey.GetKey(_implementation.Name, _sessionOptions.ConnectionString),
-            _ => throw new InvalidOperationException(
-                "Invalid options. Either ConnectionString or ExternalClient must be set.")
-        };
+            return ProviderKey.GetUniqueKey(_implementation.Name);
+        }
+
+        if (_sessionOptions.ExternalConnection != null)
+        {
+            return ProviderKey.GetKey(_implementation.Name, _sessionOptions.ExternalConnection);
+        }
+
+        return ProviderKey.GetKey(_implementation.Name, _sessionOptions.ConnectionString);
     }
-    
+
     public IProvider Build()
     {
         return new SqlProvider(_implementation, _sessionOptions);
     }
-    
-    
+
     private readonly ISqlImplementation _implementation;
     private readonly SessionOptions _sessionOptions;
     private readonly bool _isUniqueInstance;

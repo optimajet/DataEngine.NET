@@ -1,15 +1,16 @@
 ﻿using System.Data;
+using Dapper;
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-internal class DateTimeOffsetHandler : SqlTypeHandler<DateTimeOffset>
+public class DateTimeOffsetHandler : SqlMapper.TypeHandler<DateTimeOffset>
 {
     public override void SetValue(IDbDataParameter parameter, DateTimeOffset value)
     {
         parameter.Value = value.ToUniversalTime();
         parameter.DbType = DbType.DateTimeOffset;
     }
-
+    
     public override DateTimeOffset Parse(object value)
     {
         return value switch

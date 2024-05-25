@@ -14,12 +14,12 @@ public static class MysqlProvider
         return ProviderContext.Use(new MysqlProviderBuilder(externalConnection, false));
     }
     
-    public static ProviderContext UseDetached(string connectionString)
+    public static ProviderContext Create(string connectionString)
     {
         return ProviderContext.Use(new MysqlProviderBuilder(connectionString, true));
     }
     
-    public static ProviderContext UseDetached(MySqlConnection externalConnection)
+    public static ProviderContext Create(MySqlConnection externalConnection)
     {
         return ProviderContext.Use(new MysqlProviderBuilder(externalConnection, true));
     }

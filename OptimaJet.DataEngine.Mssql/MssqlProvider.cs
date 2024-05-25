@@ -14,12 +14,12 @@ public static class MssqlProvider
         return ProviderContext.Use(new MssqlProviderBuilder(externalConnection, false));
     }
     
-    public static ProviderContext UseDetached(string connectionString)
+    public static ProviderContext Create(string connectionString)
     {
         return ProviderContext.Use(new MssqlProviderBuilder(connectionString, true));
     }
     
-    public static ProviderContext UseDetached(SqlConnection externalConnection)
+    public static ProviderContext Create(SqlConnection externalConnection)
     {
         return ProviderContext.Use(new MssqlProviderBuilder(externalConnection, true));
     }

@@ -4,18 +4,16 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace OptimaJet.DataEngine.Oracle.TypeHandlers;
 
-internal class OracleDateTimeHandler : DateTimeHandler
+public class OracleDateTimeHandler : DateTimeHandler
 {
     public override void SetValue(IDbDataParameter parameter, DateTime value)
     {
-        if (parameter is OracleParameter oracle)
+        if (parameter is not OracleParameter oracleParameter)
         {
-            oracle.DbType = DbType.DateTime;
-            oracle.Value = value;
-            return;
+            throw new ArgumentException("The parameter must be of type OracleParameter", nameof(parameter));
         }
         
-        parameter.Value = value;
-        parameter.DbType = DbType.DateTime2;
+        oracleParameter.Value = value;
+        oracleParameter.DbType = DbType.DateTime;
     }
 }

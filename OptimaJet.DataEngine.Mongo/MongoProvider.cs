@@ -14,20 +14,20 @@ public class MongoProvider : IProvider
     {
         return ProviderContext.Use(new MongoProviderBuilder(connectionString, externalClient, false));
     }
-    
-    public static ProviderContext UseDetached(string connectionString)
+
+    public static ProviderContext Create(string connectionString)
     {
         return ProviderContext.Use(new MongoProviderBuilder(connectionString, true));
     }
-    
-    public static ProviderContext UseDetached(string connectionString, MongoClient externalClient)
+
+    public static ProviderContext Create(string connectionString, MongoClient externalClient)
     {
         return ProviderContext.Use(new MongoProviderBuilder(connectionString, externalClient, true));
     }
     
-    internal MongoProvider(SessionOptions options)
+    internal MongoProvider(SessionOptions sessionOptions)
     {
-        _options = options;
+        _options = sessionOptions;
     }
     
     public string Name => ProviderName.Mongo;
@@ -56,7 +56,32 @@ public class MongoProvider : IProvider
         
         return (ICollection<TEntity>) _collections[type];
     }
-    
+
+    public OptionsRestorer UseOptions(Action<MongoOptions> configureOptions)
+    {
+        var clone = Options.Clone();
+        configureOptions(clone);
+        return UseOptions(clone);
+    }
+
+    public OptionsRestorer UseOptions(MongoOptions options)
+    {
+        var restorer = new OptionsRestorer(Options, o => Options = (MongoOptions) o);
+        Options = options;
+        return restorer;
+    }
+
+    OptionsRestorer IProvider.UseOptions(Action<IOptions> configureOptions)
+    {
+        return UseOptions(configureOptions);
+    }
+
+    OptionsRestorer IProvider.UseOptions(IOptions options)
+    {
+        return UseOptions((MongoOptions) options);
+    }
+
+    public MongoOptions Options { get; private set; } = new();
     public string ConnectionString => _options.ConnectionString;
     
     private ISession? _session;

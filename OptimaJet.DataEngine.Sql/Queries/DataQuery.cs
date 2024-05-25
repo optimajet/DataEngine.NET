@@ -70,7 +70,7 @@ internal class DataQuery
 
     public DataQuery From(string tableName)
     {
-        _from = tableName;
+        _from = !String.IsNullOrWhiteSpace(_provider.Options.DatabaseSchema) ? $"{_provider.Options.DatabaseSchema}.{tableName}" : tableName;
         _query = _query.From(_from);
         return this;
     }
@@ -112,7 +112,7 @@ internal class DataQuery
             _query.Select($"{column.Name} as {column.OriginalName}");
         }
 
-        return ExecuteWithExceptionHandling(async () => (await _query.GetAsync<TEntity>(_transaction, _provider.DefaultTimeout)).ToList());
+        return ExecuteWithExceptionHandling(async () => (await _query.GetAsync<TEntity>(_transaction, _provider.Options.CommandTimeout)).ToList());
     }
     
     public Task<TEntity?> FirstAsync<TEntity>(EntityMetadata metadata) where TEntity : class
@@ -122,17 +122,17 @@ internal class DataQuery
             _query.Select($"{column.Name} as {column.OriginalName}");
         }
 
-        return ExecuteWithExceptionHandling(async () => await _query.FirstOrDefaultAsync<TEntity>(_transaction, _provider.DefaultTimeout))!;
+        return ExecuteWithExceptionHandling(async () => await _query.FirstOrDefaultAsync<TEntity>(_transaction, _provider.Options.CommandTimeout))!;
     }
     
     public Task<int> CountAsync()
     {
-        return ExecuteWithExceptionHandling(() => _query.CountAsync<int>(null, _transaction, _provider.DefaultTimeout));
+        return ExecuteWithExceptionHandling(() => _query.CountAsync<int>(null, _transaction, _provider.Options.CommandTimeout));
     }
 
     public Task<int> InsertAsync(Dictionary<string, object?> data)
     {
-        return ExecuteWithExceptionHandling(() => _query.InsertAsync(data, _transaction, _provider.DefaultTimeout));
+        return ExecuteWithExceptionHandling(() => _query.InsertAsync(data, _transaction, _provider.Options.CommandTimeout));
     }
 
     public async Task<int> InsertAsync(IEnumerable<string> columns, IEnumerable<IEnumerable<object?>> valuesCollection)
@@ -143,18 +143,18 @@ internal class DataQuery
         
         return await ExecuteWithExceptionHandling(() => 
             _provider.Name != ProviderName.Oracle
-                ? _query.InsertAsync(columns, valuesList, _transaction, _provider.DefaultTimeout)
+                ? _query.InsertAsync(columns, valuesList, _transaction, _provider.Options.CommandTimeout)
                 : InsertOracleAsync(columns.ToList(), valuesList.ToList()));
     }
 
     public Task<int> UpdateAsync(Dictionary<string, object?> data)
     {
-        return ExecuteWithExceptionHandling(() =>_query.UpdateAsync(data, _transaction, _provider.DefaultTimeout));
+        return ExecuteWithExceptionHandling(() =>_query.UpdateAsync(data, _transaction, _provider.Options.CommandTimeout));
     }
 
     public Task<int> DeleteAsync()
     {
-        return ExecuteWithExceptionHandling(() => _query.DeleteAsync(_transaction, _provider.DefaultTimeout));
+        return ExecuteWithExceptionHandling(() => _query.DeleteAsync(_transaction, _provider.Options.CommandTimeout));
     }
 
     #endregion
@@ -234,7 +234,7 @@ internal class DataQuery
 
         var command = sb.ToString();
 
-        return await _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout);
+        return await _connection.ExecuteAsync(command, parameters, _transaction, _provider.Options.CommandTimeout);
     }
 
     private Task<int> UpsertMssqlAsync<TEntity>(TEntity entity, EntityMetadata metadata) where TEntity : class
@@ -259,7 +259,7 @@ internal class DataQuery
 
         var command = sb.ToString();
 
-        return _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout);
+        return _connection.ExecuteAsync(command, parameters, _transaction, _provider.Options.CommandTimeout);
     }
 
     private async Task<int> UpsertMysqlAsync<TEntity>(TEntity entity, EntityMetadata metadata) where TEntity : class
@@ -276,7 +276,7 @@ internal class DataQuery
 
         var command = sb.ToString();
 
-        return await _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout) > 0 ? 1 : 0;
+        return await _connection.ExecuteAsync(command, parameters, _transaction, _provider.Options.CommandTimeout) > 0 ? 1 : 0;
     }
 
     private async Task<int> UpsertOracleAsync<TEntity>(TEntity entity, EntityMetadata metadata) where TEntity : class
@@ -286,7 +286,7 @@ internal class DataQuery
 
         sb.Append("BEGIN ");
         sb.Append("LOOP BEGIN ");
-        sb.Append($"MERGE INTO {_from?.Replace(".", "\".\"")} ");
+        sb.Append($"MERGE INTO \"{_from?.Replace(".", "\".\"")}\" ");
         sb.Append($"USING dual ON ");
         sb.Append($"(\"{metadata.PrimaryKeyColumn.Name}\" = :{metadata.PrimaryKeyColumn.Name}) ");
         sb.Append("WHEN NOT MATCHED THEN ");
@@ -312,7 +312,7 @@ internal class DataQuery
 
         var command = sb.ToString();
 
-        return await _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout) == -1 ? 1 : 0;
+        return await _connection.ExecuteAsync(command, parameters, _transaction, _provider.Options.CommandTimeout) == -1 ? 1 : 0;
     }
 
     private Task<int> UpsertPostgresAsync<TEntity>(TEntity entity, EntityMetadata metadata) where TEntity : class
@@ -330,7 +330,7 @@ internal class DataQuery
 
         var command = sb.ToString();
 
-        return _connection.ExecuteAsync(command, parameters, _transaction, _provider.DefaultTimeout);
+        return _connection.ExecuteAsync(command, parameters, _transaction, _provider.Options.CommandTimeout);
     }
 
     private Dictionary<string, object?> CreateParameters<TEntity>(TEntity entity, EntityMetadata metadata, string prefix = "@") where TEntity : class
@@ -355,13 +355,13 @@ internal class DataQuery
         }
         catch (Exception exception)
         {
-            _provider.ExceptionHandler(exception);
+            _provider.Options.ExceptionHandler(exception);
             throw;
         }
     }
     
     private void LogRawSql(SqlResult sql)
     {
-        _provider.LogQueryAction(sql.RawSql);
+        _provider.Options.LogQueryAction(sql.RawSql);
     }
 }

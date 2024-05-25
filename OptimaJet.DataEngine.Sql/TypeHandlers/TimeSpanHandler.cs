@@ -1,15 +1,16 @@
 ﻿using System.Data;
+using Dapper;
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-internal class TimeSpanHandler : SqlTypeHandler<TimeSpan>
+public class TimeSpanHandler : SqlMapper.TypeHandler<TimeSpan>
 {
     public override void SetValue(IDbDataParameter parameter, TimeSpan value)
     {
         parameter.Value = value;
         parameter.DbType = DbType.Time;
     }
-
+    
     public override TimeSpan Parse(object value)
     {
         return value switch

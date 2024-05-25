@@ -4,19 +4,16 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace OptimaJet.DataEngine.Oracle.TypeHandlers;
 
-internal class OracleTimeSpanHandler : TimeSpanHandler
+public class OracleTimeSpanHandler : TimeSpanHandler
 {
     public override void SetValue(IDbDataParameter parameter, TimeSpan value)
     {
-        parameter.Value = value;
-        parameter.DbType = DbType.Time;
-
-        switch (parameter)
+        if (parameter is not OracleParameter oracleParameter)
         {
-            case OracleParameter oracle:
-                oracle.Value = value;
-                oracle.OracleDbType = OracleDbType.IntervalDS;
-                break;
+            throw new ArgumentException("The parameter must be an instance of OracleParameter", nameof(parameter));
         }
+        
+        oracleParameter.Value = value;
+        oracleParameter.OracleDbType = OracleDbType.IntervalDS;
     }
 }

@@ -4,19 +4,16 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Sqlite.TypeHandlers;
 
-internal class SqliteDateTimeHandler : DateTimeHandler
+public class SqliteDateTimeHandler : DateTimeHandler
 {
     public override void SetValue(IDbDataParameter parameter, DateTime value)
     {
-        parameter.Value = value;
-        parameter.DbType = DbType.DateTime2;
-
-        switch (parameter)
+        if (parameter is not SQLiteParameter sqLiteParameter)
         {
-            case SQLiteParameter sqlite:
-                sqlite.Value = value.Ticks;
-                sqlite.DbType = DbType.Int64;
-                break;
+            throw new ArgumentException("The parameter must be of type SQLiteParameter", nameof(parameter));
         }
+        
+        sqLiteParameter.Value = value.Ticks;
+        sqLiteParameter.DbType = DbType.Int64;
     }
 }

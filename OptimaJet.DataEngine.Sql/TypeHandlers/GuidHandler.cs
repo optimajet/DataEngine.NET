@@ -1,8 +1,9 @@
 ﻿using System.Data;
+using Dapper;
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-internal class GuidHandler : SqlTypeHandler<Guid>
+public class GuidHandler : SqlMapper.TypeHandler<Guid>
 {
     public override void SetValue(IDbDataParameter parameter, Guid value)
     {

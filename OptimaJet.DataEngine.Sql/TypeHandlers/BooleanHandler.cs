@@ -1,8 +1,9 @@
 ﻿using System.Data;
+using Dapper;
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-internal class BooleanHandler : SqlTypeHandler<Boolean>
+public class BooleanHandler : SqlMapper.TypeHandler<bool>
 {
     public override void SetValue(IDbDataParameter parameter, bool value)
     {

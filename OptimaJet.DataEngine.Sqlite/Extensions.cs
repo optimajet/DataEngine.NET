@@ -1,5 +1,4 @@
 ﻿using System.Data.SQLite;
-using OptimaJet.DataEngine.Sql;
 using OptimaJet.DataEngine.Sql.Implementation;
 
 namespace OptimaJet.DataEngine.Sqlite;

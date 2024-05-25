@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Version -->
   <PropertyGroup>
-    <Version>0.0.3</Version>
-    <AssemblyVersion>0.0.3</AssemblyVersion>
-    <FileVersion>0.0.3</FileVersion>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
   </PropertyGroup>
   <!-- Build -->
   <PropertyGroup>
@@ -51,8 +51,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
-    <PackageReference Include="OptimaJet.SqlKata" Version="0.0.2" />
-    <PackageReference Include="OptimaJet.SqlKata.Execution" Version="0.0.2" />
+    <PackageReference Include="OptimaJet.SqlKata" Version="1.0.0" />
+    <PackageReference Include="OptimaJet.SqlKata.Execution" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="OptimaJet.DataEngine.Mongo, PublicKey=0024000004800000140100000602000000240000525341310008000001000100ab961a6f54ad6d4c90c0cb62e4443a364701f5da8851792936aeefbd375ba159d962e32283eb048cce1bdd61df2c9991d826c6ef59ff160923b8b732f3320f45fe01161ac19503a9dfce38acdb9e43ab4c180bbe24f3968a781ce65bd1b7087627a83edbc533840db4576c0712727d125033c8934c1770e4f62aa99f3399fdcfacce17dc2bc359c00ff7f061baac9030bca3b1431b6c37043507fd991003e0c54b0d64f2a0eb3d305a680b44833b10f8ce192e68199034f3038aabc66563b8dd7cf2d7c3aad717d2c0a90fca6d42f8939f37c508a4ad92cd8a1043c8f435b99a5bceac3f401220f17d97577617c8935f6a1cea7fc4e599bcdbe95aa7547eb683" />

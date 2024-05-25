@@ -13,15 +13,8 @@ internal class MysqlImplementation : ISqlImplementation
 {
     static MysqlImplementation()
     {
-        Dictionary<Type, ISqlTypeHandler> typeHandlers = new()
-        {
-            {typeof(DateTime), new MysqlDateTimeHandler()},
-            {typeof(DateTime?), new MysqlDateTimeHandler()},
-            {typeof(DateTimeOffset), new MysqlDateTimeOffsetHandler()},
-            {typeof(DateTimeOffset?), new MysqlDateTimeOffsetHandler()},
-        };
-
-        TypeHandlersPool.SetTypeHandlers(ProviderName.Mysql, typeHandlers);
+        TypeHandlerRegistry.Register(new MysqlDateTimeHandler(), ProviderName.Mysql);
+        TypeHandlerRegistry.Register(new MysqlDateTimeOffsetHandler(), ProviderName.Mysql);
     }
     
     public string Name => ProviderName.Mysql;
@@ -32,7 +25,7 @@ internal class MysqlImplementation : ISqlImplementation
     {
         return new MySqlConnection(connectionString);
     }
-
+    
     public void ConfigureMetadata(EntityMetadata metadata)
     {
         metadata.GetNameFn ??= name => name.ToLowerInvariant();

@@ -1,5 +1,4 @@
 ﻿using Npgsql;
-using OptimaJet.DataEngine.Sql;
 using OptimaJet.DataEngine.Sql.Implementation;
 
 namespace OptimaJet.DataEngine.Postgres;

@@ -4,18 +4,16 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Mysql.TypeHandlers;
 
-internal class MysqlDateTimeHandler : DateTimeHandler
+public class MysqlDateTimeHandler : DateTimeHandler
 {
     public override void SetValue(IDbDataParameter parameter, DateTime value)
     {
-        parameter.Value = value;
-        parameter.DbType = DbType.DateTime2;
-
-        switch (parameter)
+        if (parameter is not MySqlParameter mysqlParameter)
         {
-            case MySqlParameter mysql:
-                mysql.MySqlDbType = MySqlDbType.DateTime;
-                break;
+            throw new ArgumentException("The parameter must be of type MySqlParameter", nameof(parameter));
         }
+        
+        mysqlParameter.Value = value;
+        mysqlParameter.MySqlDbType = MySqlDbType.DateTime;
     }
 }

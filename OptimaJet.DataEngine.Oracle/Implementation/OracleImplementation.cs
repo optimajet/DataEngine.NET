@@ -13,19 +13,10 @@ internal class OracleImplementation : ISqlImplementation
 {
     static OracleImplementation()
     {
-        Dictionary<Type, ISqlTypeHandler> typeHandlers = new()
-        {
-            {typeof(bool), new OracleBooleanHandler()},
-            {typeof(bool?), new OracleBooleanHandler()},
-            {typeof(DateTime), new OracleDateTimeHandler()},
-            {typeof(DateTime?), new OracleDateTimeHandler()},
-            {typeof(TimeSpan), new OracleTimeSpanHandler()},
-            {typeof(TimeSpan?), new OracleTimeSpanHandler()},
-            {typeof(Guid), new OracleGuidHandler()},
-            {typeof(Guid?), new OracleGuidHandler()},
-        };
-
-        TypeHandlersPool.SetTypeHandlers(ProviderName.Oracle, typeHandlers);
+        TypeHandlerRegistry.Register(new OracleBooleanHandler(), ProviderName.Oracle);
+        TypeHandlerRegistry.Register(new OracleDateTimeHandler(), ProviderName.Oracle);
+        TypeHandlerRegistry.Register(new OracleTimeSpanHandler(), ProviderName.Oracle);
+        TypeHandlerRegistry.Register(new OracleGuidHandler(), ProviderName.Oracle);
     }
     
     public string Name => ProviderName.Oracle;
@@ -36,11 +27,11 @@ internal class OracleImplementation : ISqlImplementation
     {
         return new OracleConnection(connectionString);
     }
-
+    
     public void ConfigureMetadata(EntityMetadata metadata)
     {
         metadata.GetNameFn ??= name => name.ToUpperInvariant();
-
+        
         foreach (var column in metadata.Columns)
         {
             column.GetNameFn ??= n => n.ToUpperInvariant();

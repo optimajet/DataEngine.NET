@@ -1,8 +1,9 @@
 ﻿using System.Data;
+using Dapper;
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-internal class ByteHandler : SqlTypeHandler<Byte>
+public class ByteHandler : SqlMapper.TypeHandler<byte>
 {
     public override void SetValue(IDbDataParameter parameter, byte value)
     {

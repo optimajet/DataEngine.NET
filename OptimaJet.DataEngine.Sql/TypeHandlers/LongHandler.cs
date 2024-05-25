@@ -1,8 +1,9 @@
 ﻿using System.Data;
+using Dapper;
 
 namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
-internal class Int64Handler : SqlTypeHandler<Int64>
+public class LongHandler : SqlMapper.TypeHandler<long>
 {
     public override void SetValue(IDbDataParameter parameter, long value)
     {

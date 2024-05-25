@@ -1,4 +1,5 @@
-﻿using OptimaJet.DataEngine.Helpers;
+﻿using OptimaJet.DataEngine.Exceptions;
+using OptimaJet.DataEngine.Helpers;
 
 namespace OptimaJet.DataEngine;
 
@@ -21,9 +22,9 @@ public class ProviderContext : IAsyncDisposable, IDisposable
         return new ProviderContext(providerBuilder);
     }
 
-    public static IProvider Current => _keys.TryPeek(out var key)
-        ? _providers[key]
-        : throw new InvalidOperationException("No provider is available.");
+    public static IProvider Current => CurrentOrNull ?? throw new NoAvailableProviderException();
+
+    public static IProvider? CurrentOrNull => _keys.TryPeek(out var key) ? _providers[key] : null;
 
     private static readonly AsyncLocalDictionary<ProviderKey, IProvider> _providers = new();
     private static readonly AsyncLocalStack<ProviderKey> _keys = new();

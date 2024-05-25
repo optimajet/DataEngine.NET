@@ -7,33 +7,32 @@ public class MongoProviderBuilder : IProviderBuilder
 {
     public MongoProviderBuilder(string connectionString, bool isUniqueInstance)
     {
-        _isUniqueInstance = isUniqueInstance;
         _sessionOptions.ConnectionString = connectionString;
+        _isUniqueInstance = isUniqueInstance;
     }
     
     public MongoProviderBuilder(string connectionString, MongoClient externalClient, bool isUniqueInstance)
     {
         _sessionOptions.ConnectionString = connectionString;
         _sessionOptions.ExternalClient = externalClient;
+        _isUniqueInstance = isUniqueInstance;
     }
     
     public ProviderKey GetKey()
     {
-        return (_sessionOptions, _isUniqueInstance) switch
+        if (_isUniqueInstance)
         {
-            ({ExternalClient: not null}, true)
-                => ProviderKey.GetUniqueKey(ProviderName.Mongo, _sessionOptions.ExternalClient),
-            ({ExternalClient: not null}, false)
-                => ProviderKey.GetKey(ProviderName.Mongo, _sessionOptions.ExternalClient),
-            ({ConnectionString: not null}, true)
-                => ProviderKey.GetUniqueKey(ProviderName.Mongo, _sessionOptions.ConnectionString),
-            ({ConnectionString: not null}, false)
-                => ProviderKey.GetKey(ProviderName.Mongo, _sessionOptions.ConnectionString),
-            _ => throw new InvalidOperationException(
-                "Invalid options. Either ConnectionString or ExternalClient must be set.")
-        };
+            return ProviderKey.GetUniqueKey(ProviderName.Mongo);
+        }
+
+        if (_sessionOptions.ExternalClient != null)
+        {
+            return ProviderKey.GetKey(ProviderName.Mongo, _sessionOptions.ExternalClient);
+        }
+
+        return ProviderKey.GetKey(ProviderName.Mongo, _sessionOptions.ConnectionString);
     }
-    
+
     public IProvider Build()
     {
         return new MongoProvider(_sessionOptions);

@@ -16,7 +16,6 @@ public class EntityMetadata
         Columns = new List<EntityColumn>();
     }
 
-    public string? SchemaName { get; set; }
     public string OriginalName { get; }
     public string Name => GetNameFn == null ? OriginalName : GetNameFn(OriginalName);
     public Func<string, string>? GetNameFn { get; set; }

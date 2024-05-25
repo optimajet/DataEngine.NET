@@ -14,12 +14,12 @@ public static class OracleProvider
         return ProviderContext.Use(new OracleProviderBuilder(externalConnection, false));
     }
     
-    public static ProviderContext UseDetached(string connectionString)
+    public static ProviderContext Create(string connectionString)
     {
         return ProviderContext.Use(new OracleProviderBuilder(connectionString, true));
     }
-    
-    public static ProviderContext UseDetached(OracleConnection externalConnection)
+
+    public static ProviderContext Create(OracleConnection externalConnection)
     {
         return ProviderContext.Use(new OracleProviderBuilder(externalConnection, true));
     }

@@ -4,19 +4,16 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace OptimaJet.DataEngine.Oracle.TypeHandlers;
 
-internal class OracleGuidHandler : GuidHandler
+public class OracleGuidHandler : GuidHandler
 {
     public override void SetValue(IDbDataParameter parameter, Guid value)
     {
-        if (parameter is OracleParameter oracle)
+        if (parameter is not OracleParameter oracleParameter)
         {
-            oracle.DbType = DbType.String;
-            oracle.Value = value.ToString("N").ToUpperInvariant();
-            oracle.OracleDbType = OracleDbType.Char;
-            return;
+            throw new ArgumentException("The parameter must be an instance of OracleParameter", nameof(parameter));
         }
         
-        parameter.DbType = DbType.Guid;
-        parameter.Value = value;
+        oracleParameter.Value = value.ToString("N").ToUpperInvariant();
+        oracleParameter.OracleDbType = OracleDbType.Char;
     }
 }

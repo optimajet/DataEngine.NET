@@ -5,7 +5,13 @@ public readonly struct ProviderKey
     public string ProviderName { get; }
     public object? ConnectionObject { get; }
     public string? ConnectionString { get; }
-    public string? UniqueKey { get; private init; }
+    public string? UniqueKey { get; }
+
+    private ProviderKey(string providerName)
+    {
+        ProviderName = providerName;
+        UniqueKey = Guid.NewGuid().ToString("N");
+    }
     
     private ProviderKey(string providerName, object connectionObject)
     {
@@ -68,6 +74,11 @@ public readonly struct ProviderKey
         
         return string.Join(", ", parts);
     }
+
+    public static ProviderKey GetUniqueKey(string providerName)
+    {
+        return new ProviderKey(providerName);
+    }
     
     public static ProviderKey GetKey(string providerName, object connectionObject)
     {
@@ -77,15 +88,5 @@ public readonly struct ProviderKey
     public static ProviderKey GetKey(string providerName, string connectionString)
     {
         return new ProviderKey(providerName, connectionString);
-    }
-    
-    public static ProviderKey GetUniqueKey(string providerName, object connectionObject)
-    {
-        return new ProviderKey(providerName, connectionObject) {UniqueKey = Guid.NewGuid().ToString("N")};
-    }
-    
-    public static ProviderKey GetUniqueKey(string providerName, string connectionString)
-    {
-        return new ProviderKey(providerName, connectionString) {UniqueKey = Guid.NewGuid().ToString("N")};
     }
 }

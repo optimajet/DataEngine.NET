@@ -4,19 +4,16 @@ using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
 
 namespace OptimaJet.DataEngine.Sqlite.TypeHandlers;
 
-internal class SqliteGuidHandler : GuidHandler
+public class SqliteGuidHandler : GuidHandler
 {
     public override void SetValue(IDbDataParameter parameter, Guid value)
     {
-        parameter.DbType = DbType.Guid;
-        parameter.Value = value;
-
-        switch (parameter)
+        if (parameter is not SQLiteParameter sqLiteParameter)
         {
-            case SQLiteParameter sqlite:
-                sqlite.DbType = DbType.String;
-                sqlite.Value = value.ToString();
-                break;
+            throw new ArgumentException("The parameter must be a SQLiteParameter.", nameof(parameter));
         }
+        
+        sqLiteParameter.DbType = DbType.String;
+        sqLiteParameter.Value = value.ToString();
     }
 }

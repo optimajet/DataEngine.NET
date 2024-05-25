@@ -36,18 +36,40 @@ public class SqlProvider : IProvider
         if (!_collections.ContainsKey(type))
         {
             _implementation.ConfigureMetadata(MetadataPool<TEntity>.GetMetadata(Name));
-            _collections[type] = new SqlCollection<TEntity>(this);
+            _collections[type] = new SqlCollection<TEntity>();
         }
 
         return (ICollection<TEntity>) _collections[type];
     }
 
+    public OptionsRestorer UseOptions(Action<SqlOptions> configureOptions)
+    {
+        var clone = Options.Clone();
+        configureOptions(clone);
+        return UseOptions(clone);
+    }
+
+    public OptionsRestorer UseOptions(SqlOptions options)
+    {
+        var restorer = new OptionsRestorer(Options, o => Options = (SqlOptions) o);
+        Options = options;
+        return restorer;
+    }
+
+    OptionsRestorer IProvider.UseOptions(Action<IOptions> configureOptions)
+    {
+        return UseOptions(configureOptions);
+    }
+
+    OptionsRestorer IProvider.UseOptions(IOptions options)
+    {
+        return UseOptions((SqlOptions) options);
+    }
+
     public Compiler Compiler => _implementation.Compiler;
     public Dialect Dialect => _implementation.Dialect;
     public string ConnectionString => _sessionOptions.ConnectionString;
-    public int DefaultTimeout { get; set; } = 30;
-    public Action<Exception> ExceptionHandler { get; set; } = _ => { };
-    public Action<string> LogQueryAction { get; set; } = _ => { };
+    public SqlOptions Options { get; private set; } = new();
 
     private ISession? _session;
     private readonly ISqlImplementation _implementation;

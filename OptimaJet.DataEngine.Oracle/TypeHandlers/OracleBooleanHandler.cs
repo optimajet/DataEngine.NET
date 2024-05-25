@@ -4,20 +4,20 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace OptimaJet.DataEngine.Oracle.TypeHandlers;
 
-internal class OracleBooleanHandler : BooleanHandler
+public class OracleBooleanHandler : BooleanHandler
 {
     public override void SetValue(IDbDataParameter parameter, bool value)
     {
-        parameter.DbType = DbType.Boolean;
-        parameter.Value = value;
-        
-        switch (parameter)
+        if (parameter is not OracleParameter oracleParameter)
         {
-            case OracleParameter oracle:
-                oracle.Value = value ? 1 : 0;
-                oracle.DbType = DbType.Byte;
-                oracle.OracleDbType = OracleDbType.Byte;
-                break;
+            throw new ArgumentException("The parameter must be an instance of OracleParameter", nameof(parameter));
         }
+        
+        oracleParameter.Value = value switch
+        {
+            true => 1,
+            false => 0
+        };
+        oracleParameter.OracleDbType = OracleDbType.Byte;
     }
 }

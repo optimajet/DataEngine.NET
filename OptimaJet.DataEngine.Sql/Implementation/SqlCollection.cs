@@ -9,12 +9,7 @@ namespace OptimaJet.DataEngine.Sql.Implementation;
 /// </summary>
 internal class SqlCollection<TEntity> : ICollection<TEntity> where TEntity : class
 {
-    public SqlCollection(SqlProvider provider)
-    {
-        Provider = provider;
-    }
-
-    public SqlProvider Provider { get; }
+    public SqlProvider Provider => ProviderContext.Current as SqlProvider ?? throw new InvalidOperationException("The current provider is not a SQL provider.");
     public SqlSession Session => (SqlSession) Provider.Session;
 
     IProvider ICollection<TEntity>.Provider => Provider;
@@ -68,6 +63,23 @@ internal class SqlCollection<TEntity> : ICollection<TEntity> where TEntity : cla
 
     public async Task<List<TEntity>> GetByKeysAsync(params object[] keys)
     {
+        if (keys.Length <= Provider.Dialect.MaxInClauseItems)
+        {
+            return await GetByKeysInternalAsync(keys);
+        }
+
+        var result = new List<TEntity>();
+
+        for (var i = 0; i < keys.Length; i += Provider.Dialect.MaxInClauseItems)
+        {
+            result.AddRange(await GetByKeysInternalAsync(keys.Skip(i).Take(Provider.Dialect.MaxInClauseItems).ToArray()));
+        }
+
+        return result;
+    }
+
+    private async Task<List<TEntity>> GetByKeysInternalAsync(object[] keys)
+    {
         return await (await QueryFromAsync()).WhereIn(Metadata.PrimaryKeyColumn.Name, keys).GetAsync<TEntity>(Metadata);
     }
 
@@ -96,6 +108,29 @@ internal class SqlCollection<TEntity> : ICollection<TEntity> where TEntity : cla
     }
 
     public async Task<int> InsertAsync(IEnumerable<TEntity> entities)
+    {
+        var entitiesList = entities.ToList();
+
+        if (Metadata.Columns.Count * entitiesList.Count <= Provider.Dialect.MaxQueryParameters)
+        {
+            return await InsertInternalAsync(entitiesList);
+        }
+
+        await using var transaction = await Session.BeginTransactionAsync();
+
+        var step = Provider.Dialect.MaxQueryParameters / Metadata.Columns.Count;
+        int result = 0;
+
+        for (var i = 0; i < entitiesList.Count; i += step)
+        {
+            result += await InsertInternalAsync(entitiesList.Skip(i).Take(step));
+        }
+
+        await transaction.CommitAsync();
+        return result;
+    }
+
+    private async Task<int> InsertInternalAsync(IEnumerable<TEntity> entities)
     {
         return await (await QueryFromAsync()).InsertAsync(Metadata.ColumnNames,
             entities.Select(Metadata.GetColumnValues));
@@ -184,13 +219,9 @@ internal class SqlCollection<TEntity> : ICollection<TEntity> where TEntity : cla
 
     #region Helpers
 
-    private string TableName => String.IsNullOrWhiteSpace(Metadata.SchemaName)
-        ? Metadata.Name
-        : Metadata.SchemaName + "." + Metadata.Name;
-
     private async Task<DataQuery> QueryFromAsync()
     {
-        return (await QueryAsync()).From(TableName);
+        return (await QueryAsync()).From(Metadata.Name);
     }
 
     private Task<DataQuery> QueryAsync()

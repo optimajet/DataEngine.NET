@@ -14,12 +14,12 @@ public static class PostgresProvider
         return ProviderContext.Use(new PostgresProviderBuilder(externalConnection, false));
     }
     
-    public static ProviderContext UseDetached(string connectionString)
+    public static ProviderContext Create(string connectionString)
     {
         return ProviderContext.Use(new PostgresProviderBuilder(connectionString, true));
     }
     
-    public static ProviderContext UseDetached(NpgsqlConnection externalConnection)
+    public static ProviderContext Create(NpgsqlConnection externalConnection)
     {
         return ProviderContext.Use(new PostgresProviderBuilder(externalConnection, true));
     }

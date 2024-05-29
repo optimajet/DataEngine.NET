@@ -13,10 +13,10 @@ internal class OracleImplementation : ISqlImplementation
 {
     static OracleImplementation()
     {
-        TypeHandlerRegistry.Register(new OracleBooleanHandler(), ProviderName.Oracle);
-        TypeHandlerRegistry.Register(new OracleDateTimeHandler(), ProviderName.Oracle);
-        TypeHandlerRegistry.Register(new OracleTimeSpanHandler(), ProviderName.Oracle);
-        TypeHandlerRegistry.Register(new OracleGuidHandler(), ProviderName.Oracle);
+        TypeHandlerRegistry.RegisterDefault(new OracleBooleanHandler(), ProviderName.Oracle);
+        TypeHandlerRegistry.RegisterDefault(new OracleDateTimeHandler(), ProviderName.Oracle);
+        TypeHandlerRegistry.RegisterDefault(new OracleTimeSpanHandler(), ProviderName.Oracle);
+        TypeHandlerRegistry.RegisterDefault(new OracleGuidHandler(), ProviderName.Oracle);
     }
     
     public string Name => ProviderName.Oracle;

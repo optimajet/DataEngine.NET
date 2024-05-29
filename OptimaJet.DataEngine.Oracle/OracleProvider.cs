@@ -6,12 +6,12 @@ public static class OracleProvider
 {
     public static ProviderContext Use(string connectionString)
     {
-        return ProviderContext.Use(new OracleProviderBuilder(connectionString, false));
+        return ProviderContext.Use(new OracleProviderBuilder(connectionString));
     }
     
     public static ProviderContext Use(OracleConnection externalConnection)
     {
-        return ProviderContext.Use(new OracleProviderBuilder(externalConnection, false));
+        return ProviderContext.Use(new OracleProviderBuilder(externalConnection));
     }
     
     public static ProviderContext Create(string connectionString)

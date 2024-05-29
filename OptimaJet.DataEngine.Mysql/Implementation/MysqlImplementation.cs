@@ -13,8 +13,8 @@ internal class MysqlImplementation : ISqlImplementation
 {
     static MysqlImplementation()
     {
-        TypeHandlerRegistry.Register(new MysqlDateTimeHandler(), ProviderName.Mysql);
-        TypeHandlerRegistry.Register(new MysqlDateTimeOffsetHandler(), ProviderName.Mysql);
+        TypeHandlerRegistry.RegisterDefault(new MysqlDateTimeHandler(), ProviderName.Mysql);
+        TypeHandlerRegistry.RegisterDefault(new MysqlDateTimeOffsetHandler(), ProviderName.Mysql);
     }
     
     public string Name => ProviderName.Mysql;

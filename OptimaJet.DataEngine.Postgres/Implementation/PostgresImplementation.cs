@@ -13,7 +13,7 @@ internal class PostgresImplementation : ISqlImplementation
 {
     static PostgresImplementation()
     {
-        TypeHandlerRegistry.Register(new PostgresDateTimeHandler(), ProviderName.Postgres);
+        TypeHandlerRegistry.RegisterDefault(new PostgresDateTimeHandler(), ProviderName.Postgres);
     }
 
     public string Name => ProviderName.Postgres;

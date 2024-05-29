@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Npgsql;
 using NpgsqlTypes;
-using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
+using OptimaJet.DataEngine.Sql.TypeHandlers;
 
 namespace OptimaJet.DataEngine.Postgres.TypeHandlers;
 

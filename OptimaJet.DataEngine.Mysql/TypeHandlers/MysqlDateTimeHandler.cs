@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using MySql.Data.MySqlClient;
-using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
+using OptimaJet.DataEngine.Sql.TypeHandlers;
 
 namespace OptimaJet.DataEngine.Mysql.TypeHandlers;
 

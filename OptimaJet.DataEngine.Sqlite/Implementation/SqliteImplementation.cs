@@ -13,10 +13,10 @@ internal class SqliteImplementation : ISqlImplementation
 {
     static SqliteImplementation()
     {
-        TypeHandlerRegistry.Register(new SqliteDateTimeHandler(), ProviderName.Sqlite);
-        TypeHandlerRegistry.Register(new SqliteDateTimeOffsetHandler(), ProviderName.Sqlite);
-        TypeHandlerRegistry.Register(new SqliteTimeSpanHandler(), ProviderName.Sqlite);
-        TypeHandlerRegistry.Register(new SqliteGuidHandler(), ProviderName.Sqlite);
+        TypeHandlerRegistry.RegisterDefault(new SqliteDateTimeHandler(), ProviderName.Sqlite);
+        TypeHandlerRegistry.RegisterDefault(new SqliteDateTimeOffsetHandler(), ProviderName.Sqlite);
+        TypeHandlerRegistry.RegisterDefault(new SqliteTimeSpanHandler(), ProviderName.Sqlite);
+        TypeHandlerRegistry.RegisterDefault(new SqliteGuidHandler(), ProviderName.Sqlite);
     }
     
     public string Name => ProviderName.Sqlite;

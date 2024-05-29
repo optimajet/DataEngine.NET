@@ -6,12 +6,12 @@ namespace OptimaJet.DataEngine.Sqlite;
 
 public class SqliteProviderBuilder : SqlProviderBuilder
 {
-    public SqliteProviderBuilder(string connectionString, bool isUniqueInstance)
+    public SqliteProviderBuilder(string connectionString, bool isUniqueInstance = false)
         : base(new SqliteImplementation(), connectionString, isUniqueInstance)
     {
     }
     
-    public SqliteProviderBuilder(SQLiteConnection externalConnection, bool isUniqueInstance)
+    public SqliteProviderBuilder(SQLiteConnection externalConnection, bool isUniqueInstance = false)
         : base(new SqliteImplementation(), externalConnection, isUniqueInstance)
     {
     }

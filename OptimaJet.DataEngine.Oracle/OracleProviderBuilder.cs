@@ -6,12 +6,12 @@ namespace OptimaJet.DataEngine.Oracle;
 
 public class OracleProviderBuilder : SqlProviderBuilder
 {
-    public OracleProviderBuilder(string connectionString, bool isUniqueInstance)
+    public OracleProviderBuilder(string connectionString, bool isUniqueInstance = false)
         : base(new OracleImplementation(), connectionString, isUniqueInstance)
     {
     }
     
-    public OracleProviderBuilder(OracleConnection externalConnection, bool isUniqueInstance)
+    public OracleProviderBuilder(OracleConnection externalConnection, bool isUniqueInstance = false)
         : base(new OracleImplementation(), externalConnection, isUniqueInstance)
     {
     }

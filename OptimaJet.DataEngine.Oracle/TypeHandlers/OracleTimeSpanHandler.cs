@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
+using OptimaJet.DataEngine.Sql.TypeHandlers;
 using Oracle.ManagedDataAccess.Client;
 
 namespace OptimaJet.DataEngine.Oracle.TypeHandlers;

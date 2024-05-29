@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using Microsoft.Data.SqlClient;
-using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
+using OptimaJet.DataEngine.Sql.TypeHandlers;
 
 namespace OptimaJet.DataEngine.Mssql.TypeHandlers;
 

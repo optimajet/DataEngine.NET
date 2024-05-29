@@ -6,12 +6,12 @@ public static class MysqlProvider
 {
     public static ProviderContext Use(string connectionString)
     {
-        return ProviderContext.Use(new MysqlProviderBuilder(connectionString, false));
+        return ProviderContext.Use(new MysqlProviderBuilder(connectionString));
     }
     
     public static ProviderContext Use(MySqlConnection externalConnection)
     {
-        return ProviderContext.Use(new MysqlProviderBuilder(externalConnection, false));
+        return ProviderContext.Use(new MysqlProviderBuilder(externalConnection));
     }
     
     public static ProviderContext Create(string connectionString)

@@ -6,12 +6,12 @@ public static class SqliteProvider
 {
     public static ProviderContext Use(string connectionString)
     {
-        return ProviderContext.Use(new SqliteProviderBuilder(connectionString, false));
+        return ProviderContext.Use(new SqliteProviderBuilder(connectionString));
     }
     
     public static ProviderContext Use(SQLiteConnection externalConnection)
     {
-        return ProviderContext.Use(new SqliteProviderBuilder(externalConnection, false));
+        return ProviderContext.Use(new SqliteProviderBuilder(externalConnection));
     }
     
     public static ProviderContext Create(string connectionString)

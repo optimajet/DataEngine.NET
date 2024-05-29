@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 
-namespace OptimaJet.DataEngine.Sql.TypeHandlers.Default;
+namespace OptimaJet.DataEngine.Sql.TypeHandlers;
 
 public class LongHandler : SqlMapper.TypeHandler<long>
 {

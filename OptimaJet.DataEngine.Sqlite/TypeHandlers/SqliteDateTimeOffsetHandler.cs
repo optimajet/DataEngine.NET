@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using System.Data.SQLite;
-using OptimaJet.DataEngine.Sql.TypeHandlers.Default;
+using OptimaJet.DataEngine.Sql.TypeHandlers;
 
 namespace OptimaJet.DataEngine.Sqlite.TypeHandlers;
 

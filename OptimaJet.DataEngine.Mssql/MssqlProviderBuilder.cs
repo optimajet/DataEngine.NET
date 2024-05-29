@@ -6,12 +6,12 @@ namespace OptimaJet.DataEngine.Mssql;
 
 public class MssqlProviderBuilder : SqlProviderBuilder
 {
-    public MssqlProviderBuilder(string connectionString, bool isUniqueInstance)
+    public MssqlProviderBuilder(string connectionString, bool isUniqueInstance = false)
         : base(new MssqlImplementation(), connectionString, isUniqueInstance)
     {
     }
     
-    public MssqlProviderBuilder(SqlConnection externalConnection, bool isUniqueInstance)
+    public MssqlProviderBuilder(SqlConnection externalConnection, bool isUniqueInstance = false)
         : base(new MssqlImplementation(), externalConnection, isUniqueInstance)
     {
     }

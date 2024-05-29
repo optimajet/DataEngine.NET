@@ -6,12 +6,12 @@ public static class PostgresProvider
 {
     public static ProviderContext Use(string connectionString)
     {
-        return ProviderContext.Use(new PostgresProviderBuilder(connectionString, false));
+        return ProviderContext.Use(new PostgresProviderBuilder(connectionString));
     }
     
     public static ProviderContext Use(NpgsqlConnection externalConnection)
     {
-        return ProviderContext.Use(new PostgresProviderBuilder(externalConnection, false));
+        return ProviderContext.Use(new PostgresProviderBuilder(externalConnection));
     }
     
     public static ProviderContext Create(string connectionString)

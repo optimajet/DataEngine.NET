@@ -13,7 +13,7 @@ internal class MssqlImplementation : ISqlImplementation
 {
     static MssqlImplementation()
     {
-        TypeHandlerRegistry.Register(new MssqlTimeSpanHandler(), ProviderName.Mssql);
+        TypeHandlerRegistry.RegisterDefault(new MssqlTimeSpanHandler(), ProviderName.Mssql);
     }
     
     public string Name => ProviderName.Mssql;

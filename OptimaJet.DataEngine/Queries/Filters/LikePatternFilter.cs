@@ -12,8 +12,8 @@ public sealed class LikePatternFilter : UnaryFilter
 
     public string Value => Type switch
     {
-        LikePatternType.StartsWith => $"%{Constant.Value}",
-        LikePatternType.EndsWith => $"{Constant.Value}%",
+        LikePatternType.StartsWith => $"{Constant.Value}%",
+        LikePatternType.EndsWith => $"%{Constant.Value}",
         LikePatternType.ContainsIn => $"%{Constant.Value}%",
         _ => throw new PatternTypeNotSupportedException()
     };

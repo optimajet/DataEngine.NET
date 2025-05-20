@@ -260,9 +260,9 @@ public class SelectConstructor<TEntity> where TEntity : class
                 return null;
             case TrueFilter:
                 Filter = null;
-                return (await _collection.GetAsync(this)).FirstOrDefault();
+                return await _collection.FirstAsync(this);
             default:
-                return (await _collection.GetAsync(this)).FirstOrDefault();
+                return await _collection.FirstAsync(this);
         }
     }
 

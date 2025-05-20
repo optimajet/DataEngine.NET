@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MySqlConnector;
 using OptimaJet.DataEngine.Sql.Implementation;
 
 namespace OptimaJet.DataEngine.Mysql;

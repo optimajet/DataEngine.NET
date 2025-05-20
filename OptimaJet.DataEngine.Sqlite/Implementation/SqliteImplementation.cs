@@ -1,5 +1,5 @@
 ﻿using System.Data.Common;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 using OptimaJet.DataEngine.Metadata;
 using OptimaJet.DataEngine.Sql;
 using OptimaJet.DataEngine.Sql.Implementation;
@@ -17,6 +17,7 @@ internal class SqliteImplementation : ISqlImplementation
         TypeHandlerRegistry.RegisterDefault(new SqliteDateTimeOffsetHandler(), ProviderName.Sqlite);
         TypeHandlerRegistry.RegisterDefault(new SqliteTimeSpanHandler(), ProviderName.Sqlite);
         TypeHandlerRegistry.RegisterDefault(new SqliteGuidHandler(), ProviderName.Sqlite);
+        TypeHandlerRegistry.RegisterDefault(new SqliteDecimalHandler(), ProviderName.Sqlite);
     }
     
     public string Name => ProviderName.Sqlite;
@@ -25,7 +26,7 @@ internal class SqliteImplementation : ISqlImplementation
     
     public DbConnection CreateConnection(string connectionString)
     {
-        return new SQLiteConnection(connectionString);
+        return new SqliteConnection(connectionString);
     }
     
     public void ConfigureMetadata(EntityMetadata metadata)

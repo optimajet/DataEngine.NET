@@ -1,5 +1,5 @@
 ﻿using System.Data.Common;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using OptimaJet.DataEngine.Metadata;
 using OptimaJet.DataEngine.Mysql.TypeHandlers;
 using OptimaJet.DataEngine.Sql;

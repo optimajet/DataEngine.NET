@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Version -->
   <PropertyGroup>
-    <Version>1.1.1</Version>
-    <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1</FileVersion>
+    <Version>1.2.0</Version>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <FileVersion>1.2.0</FileVersion>
   </PropertyGroup>
   <!-- Build -->
   <PropertyGroup>
@@ -46,5 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.7" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.10.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.10.0" />
+    <PackageReference Include="System.Runtime.Caching" Version="8.0.1" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 </Project>

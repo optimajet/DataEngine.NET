@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Version -->
   <PropertyGroup>
-    <Version>1.1.1</Version>
-    <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1</FileVersion>
+    <Version>1.2.0</Version>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <FileVersion>1.2.0</FileVersion>
   </PropertyGroup>
   <!-- Build -->
   <PropertyGroup>
@@ -42,9 +42,9 @@
     <None Include="../icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
+    <ProjectReference Include="..\OptimaJet.DataEngine.Sql\OptimaJet.DataEngine.Sql.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OptimaJet.DataEngine.Sql\OptimaJet.DataEngine.Sql.csproj" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.16" />
   </ItemGroup>
 </Project>

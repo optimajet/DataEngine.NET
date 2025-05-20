@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Version -->
   <PropertyGroup>
-    <Version>1.1.1</Version>
-    <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1</FileVersion>
+    <Version>1.2.0</Version>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <FileVersion>1.2.0</FileVersion>
   </PropertyGroup>
   <!-- Build -->
   <PropertyGroup>
@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Npgsql" Version="8.0.3" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OptimaJet.DataEngine.Sql\OptimaJet.DataEngine.Sql.csproj" />

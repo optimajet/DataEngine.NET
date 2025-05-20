@@ -1,4 +1,4 @@
-﻿using System.Data.SQLite;
+﻿using Microsoft.Data.Sqlite;
 
 namespace OptimaJet.DataEngine.Sqlite;
 
@@ -9,7 +9,7 @@ public static class SqliteProvider
         return ProviderContext.Use(new SqliteProviderBuilder(connectionString));
     }
     
-    public static ProviderContext Use(SQLiteConnection externalConnection)
+    public static ProviderContext Use(SqliteConnection externalConnection)
     {
         return ProviderContext.Use(new SqliteProviderBuilder(externalConnection));
     }
@@ -19,7 +19,7 @@ public static class SqliteProvider
         return ProviderContext.Use(new SqliteProviderBuilder(connectionString, true));
     }
     
-    public static ProviderContext Create(SQLiteConnection externalConnection)
+    public static ProviderContext Create(SqliteConnection externalConnection)
     {
         return ProviderContext.Use(new SqliteProviderBuilder(externalConnection, true));
     }

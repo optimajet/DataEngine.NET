@@ -1,4 +1,4 @@
-﻿using System.Data.SQLite;
+﻿using Microsoft.Data.Sqlite;
 using OptimaJet.DataEngine.Sql;
 using OptimaJet.DataEngine.Sqlite.Implementation;
 
@@ -11,7 +11,7 @@ public class SqliteProviderBuilder : SqlProviderBuilder
     {
     }
     
-    public SqliteProviderBuilder(SQLiteConnection externalConnection, bool isUniqueInstance = false)
+    public SqliteProviderBuilder(SqliteConnection externalConnection, bool isUniqueInstance = false)
         : base(new SqliteImplementation(), externalConnection, isUniqueInstance)
     {
     }
